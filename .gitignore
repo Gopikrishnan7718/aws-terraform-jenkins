@@ -1,0 +1,27 @@
+# Node.js
+node_modules/
+npm-debug.log*
+
+# Build artifacts
+dist/
+build/
+*.zip
+
+# Terraform
+terraform/.terraform/
+terraform/terraform.tfstate*
+terraform/.terraform.lock.hcl
+
+# Secrets
+*.pem
+*.key
+.env
+
+# Jenkins
+jenkins/workspace/
+
+# OS / Editor
+.DS_Store
+.idea/
+.vscode/
+
