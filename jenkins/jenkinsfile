@@ -9,6 +9,13 @@ pipeline {
                     reuseNode true
                 }
             }
+            steps {
+                sh '''
+                   node --version
+                   npm --version
+                '''
+
+            }
         }
     }
-}
+}           
