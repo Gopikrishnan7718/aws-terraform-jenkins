@@ -1,21 +1,69 @@
 pipeline {
-    agent any
-    
-    stages{
-        stage('Build') {
-            agent {
-                docker {
-                    image "node:18-alpine"
-                    reuseNode true
-                }
+
+    agent {
+        docker {
+            image 'node:18-alpine'
+            args '-u root:root'
+        }
+    }
+
+    environment {
+        APP_NAME        = "node-app"
+        ARTIFACT_NAME   = "node-app-${BUILD_NUMBER}.zip"
+        AWS_REGION      = "us-east-1"
+        S3_BUCKET       = "devops-artifact-bucket-7718"
+    }
+
+    stages {
+
+        stage('Checkout') {
+            steps {
+                checkout scm
             }
+        }
+
+        stage('Install Dependencies') {
             steps {
                 sh '''
-                   node --version
-                   npm --version
+                  npm install
                 '''
+            }
+        }
 
+        stage('Build') {
+            steps {
+                sh '''
+                  npm run build || echo "No build step defined"
+                '''
+            }
+        }
+
+        stage('Package Artifact') {
+            steps {
+                sh '''
+                  zip -r $ARTIFACT_NAME app package.json package-lock.json
+                '''
+            }
+        }
+
+        stage('Upload to S3') {
+            steps {
+                withAWS(credentials: 'aws-jenkins-creds', region: "${AWS_REGION}") {
+                    sh '''
+                      aws s3 cp $ARTIFACT_NAME s3://$S3_BUCKET/$ARTIFACT_NAME
+                    '''
+                }
             }
         }
     }
-}           
+
+    post {
+        success {
+            echo "Artifact uploaded successfully to S3"
+        }
+        failure {
+            echo "Pipeline failed"
+        }
+    }
+}
+        

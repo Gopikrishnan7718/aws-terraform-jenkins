@@ -23,6 +23,6 @@ variable "ami_id" {
 }
 
 variable "artifact_bucket_name" {
-  default = "devops-artifact-bucket-123456"
+  default = "devops-artifact-bucket-7718"
 }
 
