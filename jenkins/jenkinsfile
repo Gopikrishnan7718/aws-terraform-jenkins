@@ -42,6 +42,7 @@ pipeline {
         stage('Package Artifact') {
             steps {
                 sh '''
+                  apk add --no-cache zip
                   zip -r $ARTIFACT_NAME app package.json package-lock.json
                 '''
             }
