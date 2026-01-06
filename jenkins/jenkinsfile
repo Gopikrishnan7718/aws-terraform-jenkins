@@ -43,8 +43,9 @@ pipeline {
             steps {
                 sh '''
                   apk add --no-cache zip
-                  cd /app
-                  zip -r $ARTIFACT_NAME app package.json package-lock.json
+                  #zip -r node-app-${BUILD_NUMBER}.zip app
+                  zip -r $ARTIFACT_NAME app
+                  #zip -r $ARTIFACT_NAME app package.json package-lock.json
                 '''
             }
         }
