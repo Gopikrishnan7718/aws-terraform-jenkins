@@ -43,6 +43,7 @@ pipeline {
             steps {
                 sh '''
                   apk add --no-cache zip
+                  cd /app
                   zip -r $ARTIFACT_NAME app package.json package-lock.json
                 '''
             }
