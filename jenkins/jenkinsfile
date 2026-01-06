@@ -25,6 +25,7 @@ pipeline {
         stage('Install Dependencies') {
             steps {
                 sh '''
+                  cd app
                   npm install
                 '''
             }
