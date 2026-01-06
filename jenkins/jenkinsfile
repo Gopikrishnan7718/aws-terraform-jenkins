@@ -54,6 +54,7 @@ pipeline {
             steps {
                 withAWS(credentials: 'aws-jenkins-creds', region: "${AWS_REGION}") {
                     sh '''
+                      apk add --no-cache aws-cli
                       aws s3 cp $ARTIFACT_NAME s3://$S3_BUCKET/$ARTIFACT_NAME
                     '''
                 }
