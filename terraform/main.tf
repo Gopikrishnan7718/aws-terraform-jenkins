@@ -149,7 +149,7 @@ resource "aws_iam_role_policy" "s3_policy" {
       
       ]
       Resource = [
-        "arn:aws:s3:::${var.artifact_bucket_name}"
+        "arn:aws:s3:::${var.artifact_bucket_name}",
         "arn:aws:s3:::${var.artifact_bucket_name}/*"
       ]
     }]
