@@ -186,6 +186,7 @@ cd $APP_DIR
 
 aws s3 cp s3://${var.artifact_bucket_name}/node-app-latest.zip app.zip
 unzip -o app.zip
+cd /app
 
 npm install
 nohup npm start > app.log 2>&1 &
