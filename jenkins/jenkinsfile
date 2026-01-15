@@ -59,10 +59,10 @@ pipeline {
                       apk add --no-cache aws-cli
                       aws s3 cp "$ARTIFACT_NAME" "s3://$S3_BUCKET/$ARTIFACT_NAME"
                       aws s3 cp "s3://$S3_BUCKET/$ARTIFACT_NAME" "s3://$S3_BUCKET/node-app-latest.zip"
-                      aws s3api head-object --bucket "$S3_BUCKET" --key "$ARTIFACT_NAME"
-                      aws sts get-caller-identity
-                      aws s3api head-object --bucket "$S3_BUCKET" --key "$ARTIFACT_NAME"
-                      aws s3api get-object-acl --bucket "$S3_BUCKET" --key "$ARTIFACT_NAME" || true
+                      #aws s3api head-object --bucket "$S3_BUCKET" --key "$ARTIFACT_NAME"
+                      #aws sts get-caller-identity
+                      #aws s3api head-object --bucket "$S3_BUCKET" --key "$ARTIFACT_NAME"
+                      #aws s3api get-object-acl --bucket "$S3_BUCKET" --key "$ARTIFACT_NAME" || true
 
                     '''
                 }
