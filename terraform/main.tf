@@ -182,15 +182,17 @@ curl -sL https://rpm.nodesource.com/setup_18.x | bash -
 yum install -y nodejs unzip aws-cli
 
 APP_DIR=/opt/node-app
-mkdir -p $APP_DIR
-cd $APP_DIR
+mkdir -p "$APP_DIR"
+cd "$APP_DIR"
 
-aws s3 cp s3://${var.artifact_bucket_name}/node-app-latest.zip app.zip
-unzip -o app.zip
-cd /app
+sudo aws s3 cp "s3://${var.artifact_bucket_name}/node-app-latest.zip" app.zip
+sudo unzip -o app.zip
 
-npm install
-nohup npm start > app.log 2>&1 &
+cd "$APP_DIR/app"
+
+
+sudo npm install
+sudo nohup npm start > app.log 2>&1 &
 EOF
 )
 }
