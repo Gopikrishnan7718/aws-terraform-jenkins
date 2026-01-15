@@ -173,8 +173,6 @@ resource "aws_launch_template" "lt" {
   iam_instance_profile {
     name = aws_iam_instance_profile.ec2_profile.name
   }
-}
-
 
 user_data = base64encode(<<EOF
 #!/bin/bash
@@ -202,7 +200,7 @@ sudo -u "$APP_USER" npm install
 sudo -u "$APP_USER" nohup npm start > app.log 2>&1 &
 EOF
 )
-
+}
 
 ################################
 # ALB + ASG
