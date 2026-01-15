@@ -174,28 +174,33 @@ resource "aws_launch_template" "lt" {
     name = aws_iam_instance_profile.ec2_profile.name
   }
 
-  user_data = base64encode(<<EOF
+user_data = base64encode(<<EOF
 #!/bin/bash
-yum update -y
+set -euo pipefail
 
+yum update -y
 curl -sL https://rpm.nodesource.com/setup_18.x | bash -
 yum install -y nodejs unzip aws-cli
 
-APP_DIR=/opt/node-app
-mkdir -p "$APP_DIR"
-cd "$APP_DIR"
+APP_USER="appadmin"
+APP_DIR="/opt/node-app"
+ZIP_KEY="node-app-latest.zip"
+BUCKET="${var.artifact_bucket_name}"
 
-sudo aws s3 cp "s3://${var.artifact_bucket_name}/node-app-latest.zip" app.zip
-sudo unzip -o app.zip
+id -u "$APP_USER" >/dev/null 2>&1 || useradd -m -s /bin/bash "$APP_USER"
+
+mkdir -p "$APP_DIR"
+chown -R "$APP_USER:$APP_USER" "$APP_DIR"
+
+sudo -u "$APP_USER" aws s3 cp "s3://$BUCKET/$ZIP_KEY" "$APP_DIR/app.zip"
+sudo -u "$APP_USER" unzip -o "$APP_DIR/app.zip" -d "$APP_DIR"
 
 cd "$APP_DIR/app"
-
-
-sudo npm install
-sudo nohup npm start > app.log 2>&1 &
+sudo -u "$APP_USER" npm install
+sudo -u "$APP_USER" nohup npm start > app.log 2>&1 &
 EOF
 )
-}
+
 
 ################################
 # ALB + ASG
