@@ -173,6 +173,8 @@ resource "aws_launch_template" "lt" {
   iam_instance_profile {
     name = aws_iam_instance_profile.ec2_profile.name
   }
+}
+
 
 user_data = base64encode(<<EOF
 #!/bin/bash
