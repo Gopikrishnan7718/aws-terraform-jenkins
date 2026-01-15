@@ -187,7 +187,7 @@ APP_DIR="/opt/node-app"
 ZIP_KEY="node-app-latest.zip"
 BUCKET="${var.artifact_bucket_name}"
 
-id -u "$APP_USER" >/dev/null 2>&1 || useradd -m -s /bin/bash "$APP_USER"
+useradd -m -s /bin/bash "$APP_USER"
 
 mkdir -p "$APP_DIR"
 chown -R "$APP_USER:$APP_USER" "$APP_DIR"
