@@ -33,8 +33,10 @@ pipeline {
 
         stage('test'){
             steps{
+                sh '''
                 cd app
                 npm test
+                '''
             }
         }
 
