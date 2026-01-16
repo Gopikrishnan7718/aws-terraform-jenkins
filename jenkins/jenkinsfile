@@ -77,6 +77,10 @@ pipeline {
     }
 
     post {
+        always {
+            cleanWS()
+        }
+
         success {
             echo "Artifact uploaded successfully to S3"
         }
